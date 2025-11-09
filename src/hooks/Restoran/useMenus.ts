@@ -26,6 +26,7 @@ export const useRestaurantMenu = () => {
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('Semua');
 
+
   // Get all menus
   const fetchMenus = async () => {
     try {

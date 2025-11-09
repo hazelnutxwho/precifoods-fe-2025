@@ -14,9 +14,24 @@ export interface MasterBahan {
   sfa: number;         
   mufa: number;        
   pufa: number;        
-  created_at?: string;
-  updated_at?: string;
+  status: "Waiting" | "Approved" | "Rejected"; // tambahkan status
+  approval_logs: ApprovalLog[]; //tambahkan approval logs
+  created_at: string;
+  updated_at: string;
 }
+
+export interface ApprovalLog {
+  id: number;
+  bahan_id: number;
+  from_status: string | null;
+  to_status: string;
+  changed_at: string;
+  reason: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+
 
 export interface MasterBahanType {
   id: number;
@@ -37,4 +52,15 @@ export interface MasterBahanFormData {
   sfa: number;         
   mufa: number;        
   pufa: number; 
+}
+
+// Response interfaces untuk API
+export interface MasterBahanResponse {
+  message: string;
+  data: MasterBahan;
+}
+
+export interface MasterBahanListResponse {
+  message: string;
+  data: MasterBahan[];
 }

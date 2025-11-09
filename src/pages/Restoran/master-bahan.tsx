@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import RestoranLayout from "@/components/Restoran/Restoranlayout";
-import { MasterBahanForm } from "@/components/Restoran/MasterBahanForm";
-// import { MasterBahanFormRestoran} from "@/components/Restoran/MasterBahanFormRestoran";
+import { MasterBahanFormRestoran} from "@/components/Restoran/MasterBahanFormRestoran";
 import { TableMasterBahan } from "@/components/Restoran/TableMasterBahan";
 import { useMasterBahan } from "@/hooks/Restoran/useMasterBahan";
 import { MasterBahan, MasterBahanFormData } from "@/interfaces/masterBahan";
@@ -130,14 +129,14 @@ export default function MasterBahanPage() {
         </div>
 
         {/* Keterangan */}
-        <div className="bg-white p-4 mb-4 rounded">
+        {/* <div className="bg-white p-4 mb-4 rounded">
           <h3 className="text-lg font-bold mb-2">Keterangan</h3>
             <ul className="list-disc pl-4">
               <li>Bahan Utama: Bahan utama yang digunakan dalam masakan.</li>
               <li>Bahan Pelengkap: Bahan tambahan yang digunakan dalam masakan.</li>
               <li>Bahan Dasar: Bahan dasar yang digunakan dalam masakan</li>
             </ul>         
-        </div>
+        </div> */}
 
         {/* Filter */}
         <Box sx={{ mb: 3 }}>
@@ -168,10 +167,10 @@ export default function MasterBahanPage() {
           onEdit={handleEdit}
           onDelete={handleDelete}
           loading={loading}
-          showTypeColumn={filterType === "Semua"} // ✅ hanya tampil jika filter "Semua"
+          showTypeColumn={filterType === "Semua"} //  hanya tampil jika filter "Semua"
         />
 
-        <MasterBahanForm
+        <MasterBahanFormRestoran
           open={formOpen}
           onClose={handleCloseForm}
           onSubmit={handleSubmit}

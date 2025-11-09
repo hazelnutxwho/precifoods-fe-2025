@@ -20,3 +20,19 @@ export interface UpdateNotificationRequest {
 export interface UpdateNotificationResponse {
   message: string;
 }
+
+
+// Approval
+export interface MasterStatusApprovedRequest {
+  status: "Approved";
+}
+
+// Reject
+export interface MasterStatusRejectedRequest {
+  status: "Rejected";
+  reason: string; 
+}
+
+export type MasterStatusRequest =
+  | MasterStatusApprovedRequest
+  | MasterStatusRejectedRequest;

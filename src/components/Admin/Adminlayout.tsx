@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   Notifications,
   Approval,
+  TableChart
 } from "@mui/icons-material";
 
 export default function AdminLayout({
@@ -79,7 +80,7 @@ export default function AdminLayout({
                   : "hover:bg-[#C4B58A]"
               }`}
           >
-            <Approval
+            <TableChart
               fontSize="small"
               sx={{
                 color: isActive("/Admin/approval-masterbahan")
@@ -87,7 +88,7 @@ export default function AdminLayout({
                   : "#3f3f3f",
               }}
             />
-            Approval Master Bahan
+            Master Bahan
           </button>
 
           <button
@@ -99,7 +100,7 @@ export default function AdminLayout({
                   : "hover:bg-[#C4B58A]"
               }`}
           >
-            <Approval
+            <TableChart
               fontSize="small"
               sx={{
                 color: isActive("/Admin/approval-masterbumbu")
@@ -107,7 +108,27 @@ export default function AdminLayout({
                   : "#3f3f3f",
               }}
             />
-            Approval Master Bumbu
+            Master Bumbu
+          </button>
+
+          <button
+            onClick={() => router.push("/Admin/approval-menu")}
+            className={`flex items-center gap-3 w-full text-left px-3 py-2 rounded 
+              ${
+                isActive("/Admin/approval-menu")
+                  ? "bg-white font-semibold text-[#C4B58A]"
+                  : "hover:bg-[#C4B58A]"
+              }`}
+          >
+            <Approval
+              fontSize="small"
+              sx={{
+                color: isActive("/Admin/approval-menu")
+                  ? "#C4B58A"
+                  : "#3f3f3f",
+              }}
+            />
+            Approval Menu
           </button>
 
           {/* Logout */}
@@ -127,15 +148,14 @@ export default function AdminLayout({
         <header className="flex justify-between items-center bg-[#D5C79B] p-4 shadow">
           <div className="flex justify-end items-center w-full gap-3">
             <Image
-              src="/images/admin-avatar.png" // Ganti dengan avatar admin jika ada
+              src="/images/admin-avatar.jpg"
               alt="avatar"
               width={40}
               height={40}
               className="rounded-full border"
             />
             <div className="flex flex-col text-right">
-              <span className="font-medium">{adminName || "Admin"}</span>
-              {/* <span className="text-sm text-gray-600">Administrator</span> */}
+              <span className="font-medium">{adminName || "Ahli Gizi"}</span>
             </div>
           </div>
         </header>

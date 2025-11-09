@@ -1,20 +1,5 @@
-// import AdminLayout from "@/components/Admin/Adminlayout";
-// export default function Adminindex() {
-//   return (
-//     <AdminLayout>
-//       <div className="p-6">
-//         <h1 className="text-4xl font-bold text-gray-800">Notifikasi</h1>
-//         <p className="text-sm text-gray-600">Ini page notifikasi admin</p>
-//       </div>
-//     </AdminLayout>
-//   );
-// }
-
-
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AdminLayout from "@/components/Admin/Adminlayout";
-import { GET_NOTIFIKASI, PUT_NOTIFIKASI } from "@/constants/endpoint";
-import { Notification, NotificationResponse, UpdateNotificationRequest, UpdateNotificationResponse } from "@/interfaces/admin";
 import {
   CircularProgress,
   Alert,
@@ -24,102 +9,35 @@ import {
   Chip,
   Button,
 } from "@mui/material";
-import { Notifications} from "@mui/icons-material";
+import { Notifications } from "@mui/icons-material";
+import useNotifications from "@/hooks/Admin/useAdminNotifications";
 
-export default function Adminindex() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const fetchNotifications = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(GET_NOTIFIKASI());
-      
-      if (!response.ok) {
-        throw new Error("Gagal mengambil data notifikasi");
-      }
-      
-      const data: NotificationResponse = await response.json();
-      setNotifications(data.data || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Terjadi kesalahan");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleMarkAsRead = async (notificationId: number) => {
-    try {
-      const requestBody: UpdateNotificationRequest = {
-        is_read: true
-      };
-
-      const response = await fetch(PUT_NOTIFIKASI(notificationId.toString()), {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody)
-      });
-      
-      if (!response.ok) {
-        throw new Error('Gagal update notifikasi');
-      }
-
-      const result: UpdateNotificationResponse = await response.json();
-      console.log(result.message); // "Success!"
-      
-      // Update local state
-      setNotifications(prev => 
-        prev.map(notif => 
-          notif.id === notificationId ? { ...notif, is_read: true } : notif
-        )
-      );
-    } catch (err) {
-      console.error("Gagal menandai notifikasi sebagai dibaca:", err);
-      setError(err instanceof Error ? err.message : "Gagal menandai notifikasi sebagai dibaca");
-    }
-  };
-
-  const handleMarkAllAsRead = async () => {
-    try {
-      // Mark all unread notifications one by one
-      const unreadNotifications = notifications.filter(notif => !notif.is_read);
-      
-      for (const notification of unreadNotifications) {
-        const requestBody: UpdateNotificationRequest = {
-          is_read: true
-        };
-
-        const response = await fetch(PUT_NOTIFIKASI(notification.id.toString()), {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody)
-        });
-        
-        if (!response.ok) {
-          throw new Error(`Gagal update notifikasi ${notification.id}`);
-        }
-      }
-      
-      // Update local state
-      setNotifications(prev => 
-        prev.map(notif => ({ ...notif, is_read: true }))
-      );
-    } catch (err) {
-      console.error("Gagal menandai semua notifikasi:", err);
-      setError(err instanceof Error ? err.message : "Gagal menandai semua notifikasi");
-    }
-  };
+export default function AdminNotifications() {
+  const {
+    notifications,
+    loading,
+    error,
+    updatingIds,
+    unreadCount,
+    fetchNotifications,
+    markAsRead,
+    markAllAsRead,
+    setError,
+  } = useNotifications();
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [fetchNotifications]);
 
-  const unreadCount = notifications.filter(notif => !notif.is_read).length;
+  const isMarkAllLoading = updatingIds.length > 0;
+
+  // Sort by belum dibaca
+  const sortedNotifications = [...notifications].sort((a, b) => {
+    if (a.is_read === b.is_read) {
+      return b.id - a.id;
+    }
+    return a.is_read ? 1 : -1;
+  });
 
   return (
     <AdminLayout>
@@ -136,23 +54,22 @@ export default function Adminindex() {
               )}
             </p>
           </div>
-          
+
           {unreadCount > 0 && (
             <Button
               variant="outlined"
-              // startIcon={<MarkAsRead />}
-              onClick={handleMarkAllAsRead}
+              onClick={markAllAsRead}
               className="bg-white hover:bg-gray-50"
-              disabled={loading}
+              disabled={isMarkAllLoading || loading}
             >
-              Tandai Semua Dibaca
+              {isMarkAllLoading ? "Memproses..." : "Tandai Semua Dibaca"}
             </Button>
           )}
         </div>
 
-        {/* Error Handling */}
+        {/*Error Handling*/}
         {error && (
-          <Alert severity="error" className="mb-4">
+          <Alert severity="error" className="mb-4" onClose={() => setError(null)}>
             {error}
             <Button onClick={fetchNotifications} className="ml-2" size="small">
               Coba Lagi
@@ -160,12 +77,13 @@ export default function Adminindex() {
           </Alert>
         )}
 
-        {/* Loading State */}
+        {/*Loading State*/}
         {loading ? (
-          <div className="flex justify-center mt-10">
+          <div className="flex justify-center items-center mt-10">
             <CircularProgress />
+            <span className="ml-2">Memuat notifikasi...</span>
           </div>
-        ) : notifications.length === 0 ? (
+        ) : sortedNotifications.length === 0 ? (
           <Card className="text-center py-8">
             <CardContent>
               <Notifications sx={{ fontSize: 64, color: "gray", mb: 2 }} />
@@ -179,70 +97,85 @@ export default function Adminindex() {
           </Card>
         ) : (
           <div className="space-y-4">
-            {notifications.map((notification) => (
-              <Card 
-                key={notification.id} 
-                className={`border-l-4 ${
-                  notification.is_read 
-                    ? "border-l-gray-300 bg-gray-50" 
-                    : "border-l-blue-500 bg-white shadow-sm"
-                }`}
-              >
-                <CardContent className="p-4">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <Typography 
-                          variant="h6" 
-                          className={`font-semibold ${
-                            notification.is_read ? "text-gray-600" : "text-gray-900"
-                          }`}
+            {sortedNotifications.map((notification) => {
+              const isUpdating = updatingIds.includes(notification.id);
+
+              return (
+                <Card
+                  key={notification.id}
+                  className={`border-l-4 ${
+                    notification.is_read
+                      ? "border-l-gray-300 bg-gray-50"
+                      : "border-l-blue-500 bg-white shadow-sm"
+                  }`}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Typography
+                            variant="h6"
+                            className={`font-semibold ${
+                              notification.is_read
+                                ? "text-gray-600"
+                                : "text-gray-900"
+                            }`}
+                          >
+                            {notification.title}
+                          </Typography>
+                          {!notification.is_read && !isUpdating && (
+                            <Chip
+                              label="Baru"
+                              size="small"
+                              color="primary"
+                              variant="outlined"
+                            />
+                          )}
+                          {isUpdating && <CircularProgress size={16} />}
+                        </div>
+
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          className="mb-1"
                         >
-                          {notification.title}
+                          <strong>Restoran:</strong>{" "}
+                          {notification.restaurant_name}
                         </Typography>
-                        {!notification.is_read && (
-                          <Chip 
-                            label="Baru" 
-                            size="small" 
-                            color="primary" 
-                            variant="outlined"
-                          />
-                        )}
+
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          className="mb-1"
+                        >
+                          <strong>Menu:</strong> {notification.menu_name}
+                        </Typography>
+
+                        <Typography variant="caption" color="textSecondary">
+                          ID Restoran: {notification.restaurant_id} • ID Menu:{" "}
+                          {notification.menu_id}
+                        </Typography>
                       </div>
-                      
-                      <Typography variant="body2" color="textSecondary" className="mb-1">
-                        <strong>Restoran:</strong> {notification.restaurant_name}
-                      </Typography>
-                      
-                      <Typography variant="body2" color="textSecondary" className="mb-1">
-                        <strong>Menu:</strong> {notification.menu_name}
-                      </Typography>
-                      
-                      <Typography variant="caption" color="textSecondary">
-                        ID Restoran: {notification.restaurant_id} • ID Menu: {notification.menu_id}
-                      </Typography>
+
+                      {!notification.is_read && (
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={() => markAsRead(notification.id)}
+                          className="ml-4"
+                          disabled={isUpdating || loading}
+                        >
+                          {isUpdating ? "..." : "Tandai Dibaca"}
+                        </Button>
+                      )}
                     </div>
-                    
-                    {!notification.is_read && (
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        // startIcon={<MarkAsRead />}
-                        onClick={() => handleMarkAsRead(notification.id)}
-                        className="ml-4"
-                        disabled={loading}
-                      >
-                        Tandai Dibaca
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>
     </AdminLayout>
   );
 }
-

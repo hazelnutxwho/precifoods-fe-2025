@@ -8,6 +8,12 @@ export interface Menu {
   status: string;
   image_url: string;
   nutrition?: Nutrition;
+
+  nutrition_per_portion?: NutritionPerPortion; 
+  reason?: string;
+  created_at?: string; 
+  updated_at?: string; 
+  menu_approval_logs?: MenuApprovalLog[]; // ditambah
 }
 
 export interface Nutrition {
@@ -23,6 +29,35 @@ export interface Nutrition {
   mufa: number;
   pufa: number;
   sfa: number;
+}
+
+export interface NutritionPerPortion {
+  calory: number;
+  protein: number;
+  fat: number;
+  carbohydrate: number;
+  fiber: number;
+  natrium: number;
+  cholesterol: number;
+  mufa: number;
+  pufa: number;
+  sfa: number;
+}
+
+export interface MenuApprovalLog {
+  id: number;
+  menu_id: number;
+  from_status: string | null;
+  to_status: string;
+  changed_at: string;
+  reason: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MenuResponse {
+  message: string;
+  data: Menu;
 }
 
 export const MENU_CATEGORIES = [

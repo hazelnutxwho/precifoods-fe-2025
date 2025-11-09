@@ -10,6 +10,7 @@ import {
   Paper,
   IconButton,
   CircularProgress,
+  Chip,
   Box,
 } from "@mui/material";
 import { Edit, Delete, Visibility } from "@mui/icons-material";
@@ -69,12 +70,9 @@ export const TableMenus: React.FC<TableMenusProps> = ({
             <TableCell><strong>No</strong></TableCell>
             <TableCell><strong>Foto Menu</strong></TableCell>
             <TableCell><strong>Nama Menu</strong></TableCell>
-
-            {/* 👇 Kolom kategori hanya muncul kalau showCategoryColumn true */}
             {showCategoryColumn && (
               <TableCell><strong>Kategori</strong></TableCell>
             )}
-
             <TableCell><strong>Harga</strong></TableCell>
             <TableCell><strong>Status</strong></TableCell>
             <TableCell><strong>Aksi</strong></TableCell>
@@ -128,8 +126,6 @@ export const TableMenus: React.FC<TableMenusProps> = ({
                 <TableCell>
                   <div style={{ fontWeight: "500" }}>{item.name}</div>
                 </TableCell>
-
-                {/* 👇 Kolom kategori disembunyikan jika filter != "Semua" */}
                 {showCategoryColumn && (
                   <TableCell>{item.category}</TableCell>
                 )}
@@ -141,28 +137,38 @@ export const TableMenus: React.FC<TableMenusProps> = ({
                 </TableCell>
 
                 <TableCell>
-                  <span
-                    style={{
-                      padding: "4px 8px",
-                      borderRadius: "12px",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                      backgroundColor:
-                        item.status === "Approved"
-                          ? "#e8f5e8"
-                          : item.status === "Pending"
-                          ? "#fff3cd"
-                          : "#f8d7da",
-                      color:
-                        item.status === "Approved"
-                          ? "#2e7d32"
-                          : item.status === "Pending"
-                          ? "#856404"
-                          : "#dc3545",
-                    }}
-                  >
-                    {item.status}
-                  </span>
+                  {(() => {
+                    switch (item.status) {
+                      case "Approved":
+                        return (
+                          <Chip 
+                            label="Approved" 
+                            color="success"
+                            variant="filled"
+                            size="small"
+                          />
+                        );
+                      case "Rejected":
+                        return (
+                          <Chip 
+                            label="Rejected" 
+                            color="error"
+                            variant="filled"
+                            size="small"
+                          />
+                        );
+                      case "Waiting":
+                      default:
+                        return (
+                          <Chip 
+                            label="Waiting" 
+                            color="warning"
+                            variant="filled"
+                            size="small"
+                          />
+                        );
+                    }
+                  })()}
                 </TableCell>
 
                 <TableCell>
@@ -179,6 +185,7 @@ export const TableMenus: React.FC<TableMenusProps> = ({
                     onClick={() => onEdit(item)}
                     color="primary"
                     title="Edit Menu"
+                    disabled={item.status === "Approved"}
                   >
                     <Edit />
                   </IconButton>

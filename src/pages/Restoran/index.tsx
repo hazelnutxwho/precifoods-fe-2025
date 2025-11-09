@@ -26,7 +26,6 @@ export default function RestoranIndex() {
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
-  // Refetch hanya sekali di awal
   useEffect(() => {
     if (!initialized) {
       refetch();
@@ -34,8 +33,12 @@ export default function RestoranIndex() {
     }
   }, [initialized, refetch]);
 
+  
+  // Filter hanya menu dengan status "Approved"
+  const approvedMenus = menus.filter((menu: Menu) => menu.status === "Approved");
+
   // Group menu berdasarkan kategori dan ambil 3 terbaru
-  const groupedMenus = menus.reduce((acc: GroupedMenus, menu: Menu) => {
+  const groupedMenus = approvedMenus.reduce((acc: GroupedMenus, menu: Menu) => {
     if (!acc[menu.category]) acc[menu.category] = [];
     acc[menu.category].push(menu);
     return acc;
@@ -43,10 +46,6 @@ export default function RestoranIndex() {
 
   Object.keys(groupedMenus).forEach((category) => {
     groupedMenus[category] = groupedMenus[category]
-      // .sort(
-      //   (a: Menu, b: Menu) =>
-      //     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      // )
       .slice(0, 3);
   });
 
@@ -87,7 +86,7 @@ export default function RestoranIndex() {
       <div className="p-6">
         <div>
             <h1 className="text-4xl font-bold text-gray-800">Dashboard</h1>
-            <p className="text-sm text-gray-600">Temukan menu yang baru saja ditambahkan</p>
+            <p className="text-sm text-gray-600">Temukan menu terbaru yang sudah disetujui ahli gizi disini</p>
         </div>
 
         {/* Error Handling */}
@@ -175,3 +174,4 @@ export default function RestoranIndex() {
     </Restoranlayout>
   );
 }
+

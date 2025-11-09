@@ -1,25 +1,13 @@
-// import AdminLayout from "@/components/Admin/Adminlayout";
-// export default function Approval() {
-//   return (
-//     <AdminLayout>
-//       <div className="p-6">
-//         <h1 className="text-4xl font-bold text-gray-800">Approval</h1>
-//         <p className="text-sm text-gray-600">Ini page approval</p>
-//       </div>
-//     </AdminLayout>
-//   );
-// }
-
 "use client";
 
 import { useState } from "react";
 import AdminLayout from "@/components/Admin/Adminlayout";
 import { MasterBahanForm } from "@/components/Admin/AdminMasterBahanForm";
-import { TableMasterBahan } from "@/components/Restoran/TableMasterBahan";
+import { TableMasterBahan } from "@/components/Admin/TableMasterBahanAdmin";
 import { useMasterBahan } from "@/hooks/Restoran/useMasterBahan";
 import { MasterBahan, MasterBahanFormData } from "@/interfaces/masterBahan";
 import { Box, Chip, Snackbar, Alert, Button } from "@mui/material";
-import { Add, Refresh } from "@mui/icons-material";
+import { Refresh } from "@mui/icons-material";
 
 export default function MasterBahanPage() {
   const {
@@ -29,7 +17,6 @@ export default function MasterBahanPage() {
     error,
     createBahan,
     updateBahan,
-    deleteBahan,
     fetchAllBahan: refetch,
   } = useMasterBahan();
 
@@ -82,24 +69,6 @@ export default function MasterBahanPage() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
-
-    try {
-      await deleteBahan(id.toString());
-      setSnackbar({
-        open: true,
-        message: "Data berhasil dihapus",
-        severity: "success",
-      });
-      refetch();
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Gagal menghapus data";
-      setSnackbar({ open: true, message, severity: "error" });
-    }
-  };
-
   const handleEdit = (item: MasterBahan) => handleOpenForm(item);
   const handleRefresh = () => {
     refetch();
@@ -127,14 +96,6 @@ export default function MasterBahanPage() {
               disabled={loading}
             >
               Refresh
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              onClick={() => handleOpenForm()}
-              className="bg-primary text-black py-2"
-            >
-              Tambah Bahan
             </Button>
           </div>
         </div>
@@ -166,9 +127,8 @@ export default function MasterBahanPage() {
         <TableMasterBahan
           data={filteredData}
           onEdit={handleEdit}
-          onDelete={handleDelete}
           loading={loading}
-          showTypeColumn={filterType === "Semua"} // ✅ hanya tampil jika filter "Semua"
+          showTypeColumn={filterType === "Semua"} // hanya tampil jika filter "Semua"
         />
 
         <MasterBahanForm

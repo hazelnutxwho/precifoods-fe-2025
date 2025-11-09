@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import RestoranLayout from "@/components/Restoran/Restoranlayout";
-import { MasterBumbuForm } from "@/components/Restoran/MasterBumbuForm";
-// import { MasterBumbuFormRestoran } from "@/components/Restoran/MasterBumbuFormRestoran";
+import { MasterBumbuFormRestoran } from "@/components/Restoran/MasterBumbuFormRestoran";
 import { TableMasterBumbu } from "@/components/Restoran/TableMasterBumbu";
 import { useMasterBumbu } from "@/hooks/Restoran/useMasterBumbu";
 import { MasterBumbu, MasterBumbuFormData } from "@/interfaces/masterBumbu";
@@ -143,7 +142,7 @@ export default function MasterBumbuPage() {
         />
 
         {/* Form Dialog */}
-        <MasterBumbuForm
+        <MasterBumbuFormRestoran
           open={formOpen}
           onClose={handleCloseForm}
           onSubmit={handleSubmit}

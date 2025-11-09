@@ -17,42 +17,6 @@ interface MasterBumbuFormProps {
   loading?: boolean;
 }
 
-// export const MasterBumbuFormRestoran: React.FC<MasterBumbuFormProps> = ({
-//   open,
-//   onClose,
-//   onSubmit,
-//   initialData,
-//   loading = false,
-// }) => {
-//   // ✅ Default value dengan nilai numerik agar lolos validasi backend
-//   const defaultValues = {
-//     name: "",
-//     bdd: 100, // tetap 100 agar valid
-//     calory: 0,
-//     protein: 0,
-//     fat: 0,
-//     carbohydrate: 0,
-//     fiber: 0,
-//     natrium: 0,
-//     cholesterol: 0,
-//     sfa: 0,
-//     mufa: 0,
-//     pufa: 0,
-//   };
-
-//   const [formData, setFormData] = useState(defaultValues);
-
-//   useEffect(() => {
-//     if (initialData) {
-//       setFormData({
-//         ...defaultValues,
-//         name: initialData.name,
-//       });
-//     } else {
-//       setFormData(defaultValues);
-//     }
-//   }, [initialData, open]);
-
 const defaultValues = {
   name: "",
   bdd: 100,

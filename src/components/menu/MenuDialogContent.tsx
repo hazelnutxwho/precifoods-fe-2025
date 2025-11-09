@@ -48,16 +48,16 @@ export default function MenuDialogContent({ menu }: { menu: Menu }) {
         </Typography>
         <div className="italic text-gray-600">
           <Typography variant="body2">
-            Kalori: {menu.nutrition?.calory} kcal
+            Kalori: {menu.nutrition?.calory} kkal
           </Typography>
           <Typography variant="body2">
-            Protein: {menu.nutrition?.protein} gram
+            Protein: {menu.nutrition?.protein} g
           </Typography>
           <Typography variant="body2">
-            Karbohidrat: {menu.nutrition?.carbohydrate} gram
+            Karbohidrat: {menu.nutrition?.carbohydrate} g
           </Typography>
           <Typography variant="body2">
-            Lemak: {menu.nutrition?.fat} gram
+            Lemak: {menu.nutrition?.fat} g
           </Typography>
         </div>
       </div>

@@ -19,44 +19,6 @@ interface MasterBahanFormProps {
   loading?: boolean;
 }
 
-// export const MasterBahanFormRestoran: React.FC<MasterBahanFormProps> = ({
-//   open,
-//   onClose,
-//   onSubmit,
-//   bahanTypes,
-//   initialData,
-//   loading = false,
-// }) => {
-//   const defaultValues = {
-//     name: "",
-//     type_id: 0,
-//     bdd: 100, // ✅ default agar lolos validasi backend
-//     calory: 0,
-//     protein: 0,
-//     fat: 0,
-//     carbohydrate: 0,
-//     fiber: 0,
-//     natrium: 0,
-//     cholesterol: 0,
-//     sfa: 0,
-//     mufa: 0,
-//     pufa: 0,
-//   };
-
-//   const [formData, setFormData] = useState(defaultValues);
-
-//   useEffect(() => {
-//     if (initialData) {
-//       setFormData({
-//         ...defaultValues,
-//         name: initialData.name,
-//         type_id: initialData.type_id,
-//       });
-//     } else {
-//       setFormData(defaultValues);
-//     }
-//   }, [initialData, open]);
-
 const defaultValues = {
   name: "",
   type_id: 0,
@@ -95,7 +57,6 @@ export const MasterBahanFormRestoran: React.FC<MasterBahanFormProps> = ({
     }
   }, [initialData, open]); // defaultValues sudah stabil
 
-  // ... rest of the component
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -107,7 +68,7 @@ export const MasterBahanFormRestoran: React.FC<MasterBahanFormProps> = ({
 
     const payload: MasterBahanFormData = {
       ...formData,
-      bdd: 100, // ✅ default fix agar tidak error validasi
+      bdd: 100, // default fix agar tidak error validasi
       calory: 0,
       protein: 0,
       fat: 0,

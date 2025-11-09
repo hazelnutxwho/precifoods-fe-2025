@@ -3,11 +3,11 @@
 import { useState } from "react";
 import AdminLayout from "@/components/Admin/Adminlayout";
 import { MasterBumbuForm} from "@/components/Admin/AdminMasterBumbuForm";
-import { TableMasterBumbu } from "@/components/Restoran/TableMasterBumbu";
+import { TableMasterBumbu } from "@/components/Admin/TableMasterBumbuAdmin";
 import { useMasterBumbu } from "@/hooks/Restoran/useMasterBumbu";
 import { MasterBumbu, MasterBumbuFormData } from "@/interfaces/masterBumbu";
 import { Snackbar, Alert, Button } from "@mui/material";
-import { Add, Refresh } from "@mui/icons-material";
+import { Refresh } from "@mui/icons-material";
 
 export default function MasterBumbuPage() {
   const {
@@ -16,7 +16,6 @@ export default function MasterBumbuPage() {
     error,
     createBumbu,
     updateBumbu,
-    deleteBumbu,
     fetchAllBumbu: refetch,
   } = useMasterBumbu();
 
@@ -70,25 +69,6 @@ export default function MasterBumbuPage() {
     }
   };
 
-  // Hapus data
-  const handleDelete = async (id: number) => {
-    if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) return;
-
-    try {
-      await deleteBumbu(id.toString());
-      setSnackbar({
-        open: true,
-        message: "Data berhasil dihapus",
-        severity: "success",
-      });
-      refetch();
-    } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : "Gagal menghapus data";
-      setSnackbar({ open: true, message, severity: "error" });
-    }
-  };
-
   const handleEdit = (item: MasterBumbu) => handleOpenForm(item);
   const handleRefresh = () => refetch();
 
@@ -110,14 +90,6 @@ export default function MasterBumbuPage() {
             >
               Refresh
             </Button>
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              onClick={() => handleOpenForm()}
-              className="bg-primary text-black py-2"
-            >
-              Tambah Bumbu
-            </Button>
           </div>
         </div>
 
@@ -135,7 +107,6 @@ export default function MasterBumbuPage() {
         <TableMasterBumbu
           data={data}
           onEdit={handleEdit}
-          onDelete={handleDelete}
           loading={loading}
         />
 

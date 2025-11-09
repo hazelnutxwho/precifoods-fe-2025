@@ -10,12 +10,6 @@ const nextConfig = {
       }
     ]
   },
-  typescript: {
-    ignoreBuildErrors: true
-  },
-  eslint: {
-    ignoreDuringBuilds: true
-  }
 };
 
 export default nextConfig;
@@ -27,6 +21,9 @@ export default nextConfig;
 //   eslint: {
 //     ignoreDuringBuilds: true
 //   },
+  // typescript: {
+  //   ignoreBuildErrors: true
+  // },
 //   reactStrictMode: true,
 //   images: {
 //     unoptimized: true,

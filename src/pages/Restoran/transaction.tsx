@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { Add, Refresh } from "@mui/icons-material";
 import Router from "next/router";
-import { Menu } from "@/interfaces/menu"; // Pastikan kamu punya interface ini
+import { Menu } from "@/interfaces/menu"; 
 
 export default function TransactionMenuPage() {
   const {
@@ -47,7 +47,7 @@ export default function TransactionMenuPage() {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  // ✅ Type-safe parameter
+  // ype-safe parameter
   const handleEdit = (item: Menu) => {
     Router.push(`/Restoran/UpdateMenu/${item.id}`);
   };

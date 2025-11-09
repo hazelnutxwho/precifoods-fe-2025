@@ -65,12 +65,12 @@ export default function RecommendationDialogContent({
           variant="subtitle2"
           className="text-sm text-gray-600 font-medium"
         >
-          Nutrisi Menu Rekomendasi {rank}:
+          Kandungan Gizi Menu Rekomendasi {rank}:
           <div className="space-y-1 text-sm italic text-gray-500">
-            <p>Kalori: {nutrition_summary.calory} kcal</p>
-            <p>Protein: {nutrition_summary.protein} gram</p>
-            <p>Lemak: {nutrition_summary.fat} gram</p>
-            <p>Karbohidrat: {nutrition_summary.carbohydrate} gram</p>
+            <p>Kalori: {nutrition_summary.calory} kkal</p>
+            <p>Protein: {nutrition_summary.protein} g</p>
+            <p>Lemak: {nutrition_summary.fat} g</p>
+            <p>Karbohidrat: {nutrition_summary.carbohydrate} g</p>
           </div>
         </Typography>
       </div>

@@ -28,19 +28,28 @@ export const GET_SINGLE_BUMBU: Endpoint = (id?: string) => `/master-bumbu/${id}`
 export const GET_RESTAURANT_MENUS: Endpoint = () => `/restaurants/menus`;
 export const GET_MENU_DETAIL: Endpoint = (id?: string) => `/restaurants/menus/${id}`;
 export const CREATE_MENU: Endpoint = () => `/restaurants/menu`; 
+export const GET_DETAIL_MENU: Endpoint = (id?: string) => `/restaurants/${getCookies("restaurant_id")}/menus/${id}`; // ada approval log
 
 // Get resep
 export type RecipeEndpoint = (restaurantId: string, menuId: number) => string;
-// export const GET_RECIPE: Endpoint = (restaurantId: string, menuId: number) =>
-//   `/restaurants/${restaurantId}/menus/${menuId}/recipe`;
 
 export const GET_RECIPE: RecipeEndpoint= (restaurantId: string, menuId: number) =>
   `/restaurants/${restaurantId}/menus/${menuId}/recipe`;
+
+// Notifikasi
+export const GET_RESTAURANT_NOTIFICATIONS: Endpoint = () => `/restaurants/notifications`;
+
 
 // ==================== ADMIN ENDPOINTS ==================================
 
 export const GET_NOTIFIKASI: Endpoint = () => `/notifications`;
 
 export const PUT_NOTIFIKASI: Endpoint = (notificationId?: string) => 
-  `/api/notifications/${notificationId}`;
+  `/notifications/${notificationId}`;
 
+// ==================== APPROVAL ==================================
+export const POST_MASTER_BAHAN_STATUS: Endpoint = (id) => `/master-bahan/${id}/status`;
+
+export const POST_MASTER_BUMBU_STATUS: Endpoint = (id) => `/master-bumbu/${id}/status`;
+
+export const PUT_MENU_STATUS: Endpoint = (id) => `/restaurants/${getCookies("restaurant_id")}/menus/${id}/status`;

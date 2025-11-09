@@ -10,8 +10,9 @@ import {
   IconButton,
   CircularProgress,
   Box,
+  Chip,
 } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import {Delete } from "@mui/icons-material";
 
 interface TableMasterBumbuProps {
   data: MasterBumbu[];
@@ -22,10 +23,47 @@ interface TableMasterBumbuProps {
 
 export const TableMasterBumbu: React.FC<TableMasterBumbuProps> = ({
   data,
-  onEdit,
   onDelete,
   loading = false,
 }) => {
+  const getStatusChip = (status: "Waiting" | "Approved" | "Rejected") => {
+    switch (status) {
+      case "Approved":
+        return (
+          <Chip 
+            label="Done" 
+            color="success"
+            variant="filled"
+            size="small"
+          />
+        );
+      case "Rejected":
+        return (
+          <Chip 
+            label="Rejected" 
+            color="error"
+            variant="filled"
+            size="small"
+          />
+        );
+      case "Waiting":
+      default:
+        return (
+          <Chip 
+            label="Waiting" 
+            color="warning"
+            variant="filled"
+            size="small"
+          />
+        );
+    }
+  };
+
+  // Fungsi untuk menampilkan nilai atau "-" jika waiting
+  const displayValue = (value: number, status: "Waiting" | "Approved" | "Rejected") => {
+    return status === "Waiting" ? "-" : value.toFixed(2);
+  };
+
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" py={4}>
@@ -43,8 +81,8 @@ export const TableMasterBumbu: React.FC<TableMasterBumbuProps> = ({
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table size="small">
+    <TableContainer component={Paper} sx={{ width: "100%", overflowX: "auto" }}>
+      <Table size="small" sx={{ minWidth: 1300 }}>
         <TableHead>
           <TableRow sx={{ backgroundColor: 'grey.100' }}>
             <TableCell><strong>No</strong></TableCell>
@@ -60,6 +98,7 @@ export const TableMasterBumbu: React.FC<TableMasterBumbuProps> = ({
             <TableCell><strong>SFA</strong></TableCell>
             <TableCell><strong>MUFA</strong></TableCell>
             <TableCell><strong>PUFA</strong></TableCell>
+            <TableCell><strong>Status</strong></TableCell> 
             <TableCell><strong>Aksi</strong></TableCell>
           </TableRow>
         </TableHead>
@@ -68,31 +107,27 @@ export const TableMasterBumbu: React.FC<TableMasterBumbuProps> = ({
             <TableRow key={item.id} hover>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{item.name}</TableCell>
-              <TableCell>{item.bdd}</TableCell>
-              <TableCell>{item.calory.toFixed(2)}</TableCell>
-              <TableCell>{item.protein.toFixed(2)}</TableCell>
-              <TableCell>{item.fat.toFixed(2)}</TableCell>
-              <TableCell>{item.carbohydrate.toFixed(2)}</TableCell>
-              <TableCell>{item.fiber.toFixed(2)}</TableCell>
-              <TableCell>{item.natrium.toFixed(2)}</TableCell>
-              <TableCell>{item.cholesterol.toFixed(2)}</TableCell>
-              <TableCell>{item.sfa.toFixed(2)}</TableCell>
-              <TableCell>{item.mufa.toFixed(2)}</TableCell>
-              <TableCell>{item.pufa.toFixed(2)}</TableCell>
+              <TableCell>{item.status === "Waiting" ? "-" : item.bdd}</TableCell>
+              <TableCell>{displayValue(item.calory, item.status)}</TableCell>
+              <TableCell>{displayValue(item.protein, item.status)}</TableCell>
+              <TableCell>{displayValue(item.fat, item.status)}</TableCell>
+              <TableCell>{displayValue(item.carbohydrate, item.status)}</TableCell>
+              <TableCell>{displayValue(item.fiber, item.status)}</TableCell>
+              <TableCell>{displayValue(item.natrium, item.status)}</TableCell>
+              <TableCell>{displayValue(item.cholesterol, item.status)}</TableCell>
+              <TableCell>{displayValue(item.sfa, item.status)}</TableCell>
+              <TableCell>{displayValue(item.mufa, item.status)}</TableCell>
+              <TableCell>{displayValue(item.pufa, item.status)}</TableCell>
               <TableCell>
-                <IconButton 
-                  size="small" 
-                  onClick={() => onEdit(item)}
-                  color="primary"
-                  title="Edit"
-                >
-                  <Edit />
-                </IconButton>
+                {getStatusChip(item.status)}
+              </TableCell>
+              <TableCell>
                 <IconButton 
                   size="small" 
                   onClick={() => onDelete(item.id)}
                   color="error"
                   title="Hapus"
+                  // disabled={item.status === "Approved"} // Nonaktifkan hapus jika sudah disetujui
                 >
                   <Delete />
                 </IconButton>
