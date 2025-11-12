@@ -14,7 +14,7 @@ export default function LandingPage() {
       image: "/images/mobile.png",
       title: "PreciFoods: Kenali Makananmu, Jaga Kesehatanmu!",
       description:
-        "Mulai langkah kecil untuk hidup lebih sehat dengan mengenali kandungan makanan yang kamu konsumsi bersama PreciFoods.",
+        "Mulai langkah kecil untuk hidup lebih sehat dengan mengenali kandungan gizi pada makanan yang kamu konsumsi bersama PreciFoods.",
       buttonText: "Ayo Mulai",
     },
     {
