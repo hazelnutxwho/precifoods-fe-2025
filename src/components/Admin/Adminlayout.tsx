@@ -128,7 +128,7 @@ export default function AdminLayout({
                   : "#3f3f3f",
               }}
             />
-            Approval Menu
+            Menu Verification
           </button>
 
           {/* Logout */}

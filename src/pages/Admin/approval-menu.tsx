@@ -49,7 +49,7 @@ export default function ApprovalMenuPage() {
   const handleStatusChange = () => {
     setSnackbar({
       open: true,
-      message: "Status menu berhasil diperbarui!",
+      message: "Menu berhasil diperbarui!",
       severity: "success",
     });
   };
@@ -60,9 +60,9 @@ export default function ApprovalMenuPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Approval Menu</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Verifikasi Kandungan Gizi</h1>
             <p className="text-sm text-gray-600">
-              Daftar menu restoran yang menunggu persetujuan admin
+              Daftar menu restoran yang menunggu verifikasi
             </p>
           </div>
           <Button

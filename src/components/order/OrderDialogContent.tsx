@@ -88,7 +88,7 @@ export default function OrderDialogContent({
             color="textSecondary"
             className="text-sm text-gray-600"
           >
-            Porsi untuk: {orderDetail.menu_portion} orang
+            Hidangan untuk: {orderDetail.menu_portion} orang
           </Typography>
         </div>
       ))}

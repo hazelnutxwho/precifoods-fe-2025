@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { DialogContent, Divider, Typography, Chip, Box, Alert } from "@mui/material";
+import { DialogContent, Divider, Typography, Box, Alert } from "@mui/material";
 import { Menu } from "@/interfaces/menu";
 
 export default function MenuDetail({ menu }: { menu: Menu }) {
@@ -12,18 +12,18 @@ export default function MenuDetail({ menu }: { menu: Menu }) {
     );
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Approved":
-        return "success";
-      case "Rejected":
-        return "error";
-      case "Waiting":
-        return "warning";
-      default:
-        return "default";
-    }
-  };
+  // const getStatusColor = (status: string) => {
+  //   switch (status) {
+  //     case "Approved":
+  //       return "success";
+  //     case "Rejected":
+  //       return "error";
+  //     case "Waiting":
+  //       return "warning";
+  //     default:
+  //       return "default";
+  //   }
+  // };
 
   // Ambil reason dari log
   const latestLog = menu.menu_approval_logs?.[0];
@@ -59,12 +59,12 @@ export default function MenuDetail({ menu }: { menu: Menu }) {
         >
           {menu.name || "Nama Menu Tidak Tersedia"}
         </Typography>
-        <Chip 
+        {/* <Chip 
           label={menu.status || "Unknown"} 
           color={getStatusColor(menu.status)}
           variant="filled"
           size="small"
-        />
+        /> */}
       </div>
 
       {/* Gambar Menu */}
@@ -102,7 +102,7 @@ export default function MenuDetail({ menu }: { menu: Menu }) {
       {/* Informasi Dasar */}
       <div className="space-y-1">
         <Typography variant="body1" className="text-gray-800">
-          <strong>Porsi:</strong> {menu.portion || "0"} orang
+          <strong>Hidangan untuk:</strong> {menu.portion || "0"} (porsi/orang)
         </Typography>
         <Typography variant="body1" className="text-gray-800">
           <strong>Kategori:</strong> {menu.category || "Tidak ada kategori"}
@@ -114,11 +114,11 @@ export default function MenuDetail({ menu }: { menu: Menu }) {
 
       {/* Reason untuk Status Rejected */}
       {rejectionReason && (
-        <Box className="bg-red-50 border border-red-200 rounded-md p-3">
-          <Typography variant="subtitle2" className="text-red-800 font-semibold mb-1">
-            Alasan Penolakan:
+        <Box className="bg-blue-50 border border-blue-200 rounded-md p-3">
+          <Typography variant="subtitle2" className="text-blue-800 font-semibold mb-1">
+            Saran dari ahli gizi:
           </Typography>
-          <Typography variant="body2" className="text-red-700">
+          <Typography variant="body2" className="text-blue-700">
             {rejectionReason}
           </Typography>
         </Box>
@@ -128,7 +128,7 @@ export default function MenuDetail({ menu }: { menu: Menu }) {
       {menu.status === "Waiting" && (
         <Box className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
           <Typography variant="subtitle2" className="text-yellow-800 font-semibold mb-1">
-            Menunggu Persetujuan Admin
+            Menunggu verifikasi dari ahli gizi
           </Typography>
         </Box>
       )}
@@ -156,7 +156,7 @@ export default function MenuDetail({ menu }: { menu: Menu }) {
       </div>
 
       {/* Riwayat Approval*/}
-      {menu.menu_approval_logs && menu.menu_approval_logs.length > 0 && (
+      {/* {menu.menu_approval_logs && menu.menu_approval_logs.length > 0 && (
         <>
           <Divider className="my-4" />
           <div>
@@ -182,13 +182,13 @@ export default function MenuDetail({ menu }: { menu: Menu }) {
             </div>
           </div>
         </>
-      )}
+      )} */}
 
       {/* Info untuk menu tanpa riwayat approval */}
       {menu.status === "Waiting" && (!menu.menu_approval_logs || menu.menu_approval_logs.length === 0) && (
         <Box className="bg-blue-50 border border-blue-200 rounded-md p-3">
           <Typography variant="body2" className="text-blue-700 text-center">
-            Menu baru dibuat dan sedang menunggu persetujuan
+            Menu baru dibuat dan sedang menunggu verifikasi Ahli Gizi
           </Typography>
         </Box>
       )}

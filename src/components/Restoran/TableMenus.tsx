@@ -151,8 +151,8 @@ export const TableMenus: React.FC<TableMenusProps> = ({
                       case "Rejected":
                         return (
                           <Chip 
-                            label="Rejected" 
-                            color="error"
+                            label="Pending (with Feedback)" 
+                            color="info"
                             variant="filled"
                             size="small"
                           />
@@ -161,7 +161,7 @@ export const TableMenus: React.FC<TableMenusProps> = ({
                       default:
                         return (
                           <Chip 
-                            label="Waiting" 
+                            label="Waiting for Verification" 
                             color="warning"
                             variant="filled"
                             size="small"

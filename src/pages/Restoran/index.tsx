@@ -86,7 +86,7 @@ export default function RestoranIndex() {
       <div className="p-6">
         <div>
             <h1 className="text-4xl font-bold text-gray-800">Dashboard</h1>
-            <p className="text-sm text-gray-600">Temukan menu terbaru yang sudah disetujui ahli gizi disini</p>
+            <p className="text-sm text-gray-600">Temukan menu terbaru yang sudah diverifikasi ahli gizi disini</p>
         </div>
 
         {/* Error Handling */}

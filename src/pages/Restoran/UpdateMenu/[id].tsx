@@ -244,7 +244,7 @@ export default function UpdateMenuPage() {
 
           {/* Porsi */}
           <div>
-            <label className="block text-sm font-medium mb-1">Porsi</label>
+            <label className="block text-sm font-medium mb-1">Hidangan untuk ... (porsi/orang)</label>
             <input
               type="number"
               {...register("portion", {

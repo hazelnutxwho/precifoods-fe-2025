@@ -107,7 +107,7 @@ export default function MenuDetailAdmin({
 
         <div className="space-y-2">
           <Typography variant="body1" className="text-gray-800">
-            <strong>Porsi:</strong> {menu.portion} orang
+            <strong>Hidangan untuk:</strong> {menu.portion} (porsi/orang)
           </Typography>
           <Typography variant="body1" className="text-gray-800">
             <strong>Kategori:</strong> {menu.category}
@@ -115,13 +115,13 @@ export default function MenuDetailAdmin({
           <Typography variant="body1" className="text-gray-800 font-medium">
             <strong>Harga:</strong> Rp{menu.price.toLocaleString("id-ID")}
           </Typography>
-          <Typography variant="body1" className="text-gray-800">
+          {/* <Typography variant="body1" className="text-gray-800">
             <strong>Status:</strong> {menu.status}
-          </Typography>
+          </Typography> */}
           
           {menu.reason && (
             <Typography variant="body1" className="text-red-600">
-              <strong>Alasan Penolakan:</strong> {menu.reason}
+              <strong>Saran:</strong> {menu.reason}
             </Typography>
           )}
         </div>
@@ -129,7 +129,7 @@ export default function MenuDetailAdmin({
         <Divider className="my-2" />
 
         <Typography variant="body1" className="font-semibold text-gray-800">
-          Kandungan Gizi (Total):
+          Kandungan Gizi Hidangan:
         </Typography>
         <div className="text-gray-600 space-y-1">
           <Typography variant="body2">
@@ -167,7 +167,7 @@ export default function MenuDetailAdmin({
         <Divider className="my-2" />
 
         <Typography variant="body1" className="font-semibold text-gray-800">
-          Kandungan Gizi (per Porsi):
+          Kandungan Gizi per Porsi:
         </Typography>
         <div className="text-gray-600 space-y-1">
           <Typography variant="body2">

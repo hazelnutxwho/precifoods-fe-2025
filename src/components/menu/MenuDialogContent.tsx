@@ -35,7 +35,7 @@ export default function MenuDialogContent({ menu }: { menu: Menu }) {
       <Divider className="my-4" />
       <div className="space-y-1">
         <Typography variant="body1" className="text-gray-800">
-          <strong>Porsi:</strong> {menu.portion} orang
+          <strong>Hidangan untuk:</strong> {menu.portion} (porsi/orang)
         </Typography>
         <Typography variant="body1" className="text-gray-800">
           <strong>Kategori:</strong> {menu.category}

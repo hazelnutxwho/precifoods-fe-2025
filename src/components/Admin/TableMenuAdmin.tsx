@@ -103,8 +103,8 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
 
       alert(
         status === "Approved"
-          ? "Menu berhasil di-approve!"
-          : "Menu berhasil direject!"
+          ? "Menu berhasil diverifikasi"
+          : "Saran berhasil dikirim"
       );
 
       onStatusChange?.();
@@ -132,9 +132,9 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
       case "Approved":
         return <Chip label="Approved" color="success" size="small" />;
       case "Rejected":
-        return <Chip label="Rejected" color="error" size="small" />;
+        return <Chip label="Waiting for reply" color="info" size="small" />;
       default:
-        return <Chip label="Waiting" color="warning" size="small" />;
+        return <Chip label="Waiting for verification" color="warning" size="small" />;
     }
   };
 
@@ -260,7 +260,7 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
                       </Button>
                       <Button
                         variant="contained"
-                        color="error"
+                        color="primary"
                         size="small"
                         disabled={submitting || item.status === "Rejected"}
                         onClick={() => {
@@ -268,7 +268,7 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
                           setOpenRejectDialog(true);
                         }}
                       >
-                        Reject
+                        Saran
                       </Button>
                     </Box>
                   </TableCell>

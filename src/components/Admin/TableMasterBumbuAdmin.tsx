@@ -65,7 +65,7 @@ export const TableMasterBumbu: React.FC<TableMasterBumbuProps> = ({
       case "Rejected":
         return <Chip label="Rejected" color="error" size="small" />;
       default:
-        return <Chip label="Awaiting Input" color="warning" size="small" />;
+        return <Chip label="Waiting for Input" color="warning" size="small" />;
     }
   };
 

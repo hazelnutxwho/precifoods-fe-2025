@@ -18,7 +18,7 @@ export const RejectDialog: React.FC<RejectDialogProps> = ({
 
   const handleSubmit = () => {
     if (!reason.trim()) {
-      alert("Alasan harus diisi!");
+      alert("Saran harus diisi!");
       return;
     }
     onSubmit(reason);
@@ -33,10 +33,10 @@ export const RejectDialog: React.FC<RejectDialogProps> = ({
         sx: { borderRadius: 2, p: 2, minWidth: 420 },
       }}
     >
-      <DialogTitle>Alasan Penolakan</DialogTitle>
+      <DialogTitle>Saran</DialogTitle>
       <DialogContent>
         <TextField
-          label="Masukkan alasan penolakan"
+          label="Masukkan saran"
           fullWidth
           multiline
           minRows={6}
