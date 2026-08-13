@@ -21,7 +21,7 @@ export default function Home() {
     "/images/image4.png",
     "/images/image5.png",
   ];
-  const { data: recommendation, errorMessage } = useGetRecommendations();
+  const { data: recommendation, errorMessage, refetch } = useGetRecommendations();
   const isRecommendationUpdated = useRecommendationUpdate(recommendation);
 
   return (
@@ -115,7 +115,7 @@ export default function Home() {
         {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
       </div>
       <div className="my-6 space-y-4 text-center px-4">
-        <GenerateRecommendationButton />
+        <GenerateRecommendationButton onGenerated={refetch} />
         <UpdateDataDialog />
       </div>
       <div>

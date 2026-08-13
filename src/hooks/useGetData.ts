@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { openToast } from "@/components/Toast";
 import {
@@ -21,25 +21,26 @@ function useFetchData<T>(endpoint: Endpoint) {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getDataAuthenticated(endpoint());
-        setData(response);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setErrorMessage(error.message);
-          openToast({ type: "error", message: error.message });
-        }
-      } finally {
-        setIsLoading(false);
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await getDataAuthenticated(endpoint());
+      setData(response);
+      setErrorMessage(null);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+        openToast({ type: "error", message: error.message });
       }
-    };
-
-    fetchData();
+    } finally {
+      setIsLoading(false);
+    }
   }, [endpoint]);
 
-  return { data, errorMessage, isLoading, setData };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { data, errorMessage, isLoading, setData, refetch: fetchData };
 }
 
 export const useGetOrders = () => useFetchData<SimpleOrder[]>(GET_ORDERS);
