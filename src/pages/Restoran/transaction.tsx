@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useRestaurantMenu from "@/hooks/Restoran/useMenus";
 import useResep from "@/hooks/Restoran/useResep";
 
@@ -38,9 +38,8 @@ export default function TransactionMenuPage() {
 
   const { deleteMenuRecipe } = useResep();
 
-  // Pakai restaurant_id asli milik akun login (cookie), fallback ke env utk legacy
-  const RESTO_ID =
-    getCookies("restaurant_id") || (process.env.NEXT_PUBLIC_RESTAURANT_ID as string);
+  // restaurant_id milik akun login (cookie); tanpa cookie → redirect login
+  const RESTO_ID = getCookies("restaurant_id") as string;
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -49,6 +48,10 @@ export default function TransactionMenuPage() {
   });
 
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (!RESTO_ID) Router.replace("/login");
+  }, [RESTO_ID]);
 
   // ype-safe parameter
   const handleEdit = (item: Menu) => {

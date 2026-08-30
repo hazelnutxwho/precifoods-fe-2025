@@ -13,15 +13,18 @@ import { MENU_CATEGORIES } from "@/interfaces/menu";
 import { Button } from "@mui/material";
 import { getCookies } from "@/utils/cookie";
 
-// Pakai restaurant_id asli milik akun login (cookie), fallback ke env utk legacy
-const RESTO_ID =
-  getCookies("restaurant_id") || (process.env.NEXT_PUBLIC_RESTAURANT_ID as string);
-
 export default function UpdateMenuPage() {
   const { updateMenu, fetchMenuById, loading: menuLoading } = useRestaurantMenu();
   const router = useRouter();
   const params = useParams();
   const menuId = Number(params?.id);
+
+  // restaurant_id milik akun login (cookie); tanpa cookie → redirect login
+  const RESTO_ID = getCookies("restaurant_id") as string;
+
+  useEffect(() => {
+    if (!RESTO_ID) router.replace("/login");
+  }, [router, RESTO_ID]);
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<MenuFormData>();
   const [loadingMenu, setLoadingMenu] = useState(false);
@@ -96,7 +99,7 @@ export default function UpdateMenuPage() {
       console.error(err);
       alert("Gagal memuat data menu");
     }
-  }, [menuId, initialDataLoaded, fetchMenuById, getMenuRecipe, setDataResep, setValue, bahanList, bumbuList]);
+  }, [menuId, RESTO_ID, initialDataLoaded, fetchMenuById, getMenuRecipe, setDataResep, setValue, bahanList, bumbuList]);
 
   useEffect(() => {
     loadMenuData();

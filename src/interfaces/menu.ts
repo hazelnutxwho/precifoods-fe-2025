@@ -7,6 +7,7 @@ export interface Menu {
   description: string;
   status: string;
   image_url: string;
+  restaurant_id?: string;
   nutrition?: Nutrition;
 
   nutrition_per_portion?: NutritionPerPortion; 

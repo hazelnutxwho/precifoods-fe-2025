@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 
+// SSR-safe: document tidak ada di server (Next.js prerender/SSR).
+const isBrowser = () => typeof document !== "undefined";
+
 export const getCookies = (name: string) => {
+  if (!isBrowser()) return undefined;
   const cookies = document.cookie.split("; ");
   const cookie = cookies.find((cookie) => cookie.startsWith(name));
   return cookie?.split("=")[1];
 };
 
 export const setCookie = (name: string, value: string) => {
+  if (!isBrowser()) return;
   document.cookie = `${name}=${value}; path=/; secure; samesite=strict`;
 };
 
 export const removeCookie = (name: string) => {
+  if (!isBrowser()) return;
   document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 };
 

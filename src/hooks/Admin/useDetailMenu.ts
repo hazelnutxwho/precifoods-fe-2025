@@ -19,7 +19,7 @@ interface UseDetailMenuReturn {
   resetUpdateState: () => void;
 }
 
-export const useDetailMenu = (menuId?: number): UseDetailMenuReturn => {
+export const useDetailMenu = (menuId?: number, restaurantId?: string): UseDetailMenuReturn => {
   // State untuk GET_DETAIL_MENU
   const [data, setData] = useState<Menu | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -41,17 +41,17 @@ export const useDetailMenu = (menuId?: number): UseDetailMenuReturn => {
     setErrorMessage(null);
 
     try {
-      const restaurantId = getCookies("restaurant_id");
+      const rid = restaurantId || getCookies("restaurant_id");
       const token = getCookies("token");
 
-      if (!restaurantId) {
+      if (!rid) {
         throw new Error('Restaurant ID tidak ditemukan');
       }
       if (!token) {
         throw new Error('Token tidak tersedia');
       }
 
-      const endpoint = GET_DETAIL_MENU(menuId.toString());
+      const endpoint = GET_DETAIL_MENU(rid, menuId.toString());
       const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       
       const response = await fetch(`${baseUrl}${endpoint}`, {
@@ -101,14 +101,14 @@ export const useDetailMenu = (menuId?: number): UseDetailMenuReturn => {
     setIsUpdateSuccess(false);
 
     try {
-      const restaurantId = getCookies("restaurant_id");
+      const rid = restaurantId || getCookies("restaurant_id");
       const token = getCookies("token");
 
-      if (!restaurantId || !token) {
+      if (!rid || !token) {
         throw new Error('Restaurant ID atau Token tidak tersedia');
       }
 
-      const endpoint = PUT_MENU_STATUS(menuId.toString());
+      const endpoint = PUT_MENU_STATUS(rid, menuId.toString());
       const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
       const response = await fetch(`${baseUrl}${endpoint}`, {
@@ -158,7 +158,7 @@ export const useDetailMenu = (menuId?: number): UseDetailMenuReturn => {
   useEffect(() => {
     fetchMenuDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [menuId]);
+  }, [menuId, restaurantId]);
 
   const refetch = () => {
     fetchMenuDetail();

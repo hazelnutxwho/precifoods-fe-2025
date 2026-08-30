@@ -16,18 +16,20 @@ interface MenuDetailAdminProps {
   open: boolean;
   onClose: () => void;
   menuId?: number;
+  restaurantId?: string;
 }
 
 export default function MenuDetailAdmin({ 
   open, 
   onClose, 
-  menuId 
+  menuId,
+  restaurantId,
 }: MenuDetailAdminProps) {
   const { 
     data: menu, 
     isLoading, 
     errorMessage,
-  } = useDetailMenu(menuId);
+  } = useDetailMenu(menuId, restaurantId);
 
 // //Debug
 //  console.log("MenuDetailAdmin dipanggil dengan ID:", menuId);

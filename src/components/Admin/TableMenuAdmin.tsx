@@ -39,6 +39,7 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
   const [openRejectDialog, setOpenRejectDialog] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [selectedMenuId, setSelectedMenuId] = useState<number | null>(null);
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState<string | null>(null);
   const [openDetailDialog, setOpenDetailDialog] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
@@ -72,6 +73,7 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
 
   // === POST STATUS ===
   const postStatus = async (
+    restaurantId: string,
     id: number,
     status: "Approved" | "Rejected",
     reason?: string
@@ -88,14 +90,17 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
       const payload: MasterStatusRequest =
         status === "Rejected" ? { status, reason: reason ?? "" } : { status };
 
-      const response = await fetch(`${baseUrl}${PUT_MENU_STATUS(String(id))}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `${baseUrl}${PUT_MENU_STATUS(restaurantId, String(id))}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const result = await response.json();
       if (!response.ok)
@@ -118,11 +123,18 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
     }
   };
 
-  const handleApprove = (id: number) => postStatus(id, "Approved");
+  const handleApprove = (item: Menu) =>
+    postStatus(item.restaurant_id || getCookies("restaurant_id") || "", item.id, "Approved");
 
   const handleRejectSubmit = (reason: string) => {
     if (!selectedId) return;
-    postStatus(selectedId, "Rejected", reason);
+    const target = data.find((m) => m.id === selectedId);
+    postStatus(
+      target?.restaurant_id || getCookies("restaurant_id") || "",
+      selectedId,
+      "Rejected",
+      reason
+    );
     setOpenRejectDialog(false);
   };
 
@@ -243,6 +255,9 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
                         color="info"
                         onClick={() => {
                           setSelectedMenuId(item.id);
+                          setSelectedRestaurantId(
+                            item.restaurant_id || getCookies("restaurant_id") || null
+                          );
                           setOpenDetailDialog(true);
                         }}
                         title="Lihat Detail"
@@ -254,7 +269,7 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
                         color="success"
                         size="small"
                         disabled={submitting || item.status === "Approved"}
-                        onClick={() => handleApprove(item.id)}
+                        onClick={() => handleApprove(item)}
                       >
                         Approve
                       </Button>
@@ -300,8 +315,10 @@ export const TableMenuAdmin: React.FC<TableMenuAdminProps> = ({
           onClose={() => {
             setOpenDetailDialog(false);
             setSelectedMenuId(null);
+            setSelectedRestaurantId(null);
           }}
           menuId={selectedMenuId}
+          restaurantId={selectedRestaurantId || undefined}
         />
       )}
     </>

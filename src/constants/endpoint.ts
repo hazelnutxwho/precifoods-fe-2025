@@ -28,7 +28,12 @@ export const GET_SINGLE_BUMBU: Endpoint = (id?: string) => `/master-bumbu/${id}`
 export const GET_RESTAURANT_MENUS: Endpoint = () => `/restaurants/menus`;
 export const GET_MENU_DETAIL: Endpoint = (id?: string) => `/restaurants/menus/${id}`;
 export const CREATE_MENU: Endpoint = () => `/restaurants/menu`; 
-export const GET_DETAIL_MENU: Endpoint = (id?: string) => `/restaurants/${getCookies("restaurant_id")}/menus/${id}`; // ada approval log
+
+// Admin approval: restaurantId dari baris menu (bukan cookie login)
+export type MenuApprovalEndpoint = (restaurantId: string, id: string) => string;
+
+export const GET_DETAIL_MENU: MenuApprovalEndpoint = (restaurantId, id) =>
+  `/restaurants/${restaurantId}/menus/${id}`; // ada approval log
 
 // Get resep
 export type RecipeEndpoint = (restaurantId: string, menuId: number) => string;
@@ -52,4 +57,5 @@ export const POST_MASTER_BAHAN_STATUS: Endpoint = (id) => `/master-bahan/${id}/s
 
 export const POST_MASTER_BUMBU_STATUS: Endpoint = (id) => `/master-bumbu/${id}/status`;
 
-export const PUT_MENU_STATUS: Endpoint = (id) => `/restaurants/${getCookies("restaurant_id")}/menus/${id}/status`;
+export const PUT_MENU_STATUS: MenuApprovalEndpoint = (restaurantId, id) =>
+  `/restaurants/${restaurantId}/menus/${id}/status`;
