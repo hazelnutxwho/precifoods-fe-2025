@@ -46,14 +46,20 @@ export default function Login() {
     try {
       const responseData = await postData("/auth/login", data);
       setCookie("token", responseData.access_token);
-      setCookie("restaurant_id", data.restaurant_id);
       // router.push("/");
       setCookie("role", responseData.role);
 
     //Modif...................
 
+      // Untuk akun Restoran, pakai restaurant_id asli dari server (bukan pilihan dropdown)
+      // agar CRUD menu selalu menyasar restoran milik akun; untuk Admin/Konsumen
+      // fallback ke dropdown agar browsing restoran lain tetap berfungsi
+      const effectiveRestaurantId =
+        responseData.restaurant_id || data.restaurant_id;
+      setCookie("restaurant_id", effectiveRestaurantId);
+
       // cari nama restoran berdasarkan id yg dipilih
-      const selectedRestaurant = restaurants?.find(r => r.id === data.restaurant_id);
+      const selectedRestaurant = restaurants?.find(r => r.id === effectiveRestaurantId);
       if (selectedRestaurant) {
         setCookie("restaurant_name", selectedRestaurant.name);
       }

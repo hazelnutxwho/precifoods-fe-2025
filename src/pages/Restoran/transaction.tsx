@@ -20,6 +20,7 @@ import {
 import { Add, Refresh } from "@mui/icons-material";
 import Router from "next/router";
 import { Menu } from "@/interfaces/menu"; 
+import { getCookies } from "@/utils/cookie";
 
 export default function TransactionMenuPage() {
   const {
@@ -37,7 +38,9 @@ export default function TransactionMenuPage() {
 
   const { deleteMenuRecipe } = useResep();
 
-  const RESTO_ID = process.env.NEXT_PUBLIC_RESTAURANT_ID as string;
+  // Pakai restaurant_id asli milik akun login (cookie), fallback ke env utk legacy
+  const RESTO_ID =
+    getCookies("restaurant_id") || (process.env.NEXT_PUBLIC_RESTAURANT_ID as string);
 
   const [snackbar, setSnackbar] = useState({
     open: false,

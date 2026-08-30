@@ -11,8 +11,11 @@ import useMasterBumbu from "@/hooks/Restoran/useMasterBumbu";
 import useResep, { RecipeItem } from "@/hooks/Restoran/useResep";
 import { MENU_CATEGORIES } from "@/interfaces/menu";
 import { Button } from "@mui/material";
+import { getCookies } from "@/utils/cookie";
 
-const RESTO_ID = process.env.NEXT_PUBLIC_RESTAURANT_ID as string;
+// Pakai restaurant_id asli milik akun login (cookie), fallback ke env utk legacy
+const RESTO_ID =
+  getCookies("restaurant_id") || (process.env.NEXT_PUBLIC_RESTAURANT_ID as string);
 
 export default function UpdateMenuPage() {
   const { updateMenu, fetchMenuById, loading: menuLoading } = useRestaurantMenu();
