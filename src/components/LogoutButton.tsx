@@ -4,7 +4,7 @@ import { openConfirmationDialog } from "./ConfirmationDialog";
 
 import Button from "@mui/material/Button";
 
-import { removeCookiesLogout } from "@/utils/cookie";
+import { logoutUser } from "@/utils/http";
 
 export function LogoutButton() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export function LogoutButton() {
       description: "Apakah Anda yakin ingin keluar dari aplikasi?",
     });
     if (!confirmation) return;
-    removeCookiesLogout();
+    await logoutUser();
     router.push("/login");
   };
   return (

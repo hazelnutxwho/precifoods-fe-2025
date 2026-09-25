@@ -1,4 +1,4 @@
-import { getCookies } from "@/utils/cookie";
+import { getCookies, removeCookiesLogout } from "@/utils/cookie";
 
 const fetchData = async (
   method: string,
@@ -74,6 +74,15 @@ export const putDataAuthenticated = async (
 
 export const deleteDataAuthenticated = async (endpoint: string) => {
   return fetchDataAuthenticated("DELETE", endpoint);
+};
+
+export const logoutUser = async () => {
+  try {
+    await deleteDataAuthenticated("/auth/logout");
+  } catch {
+    // still clear client state even if the server call fails
+  }
+  removeCookiesLogout();
 };
 
 

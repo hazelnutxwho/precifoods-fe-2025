@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getCookies, removeCookiesLogout } from "@/utils/cookie";
+import { getCookies } from "@/utils/cookie";
+import { logoutUser } from "@/utils/http";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import {
@@ -27,8 +28,8 @@ export default function AdminLayout({
     if (name) setAdminName(name);
   }, [router]);
 
-  const handleLogout = () => {
-    removeCookiesLogout();
+  const handleLogout = async () => {
+    await logoutUser();
     router.push("/login");
   };
 
