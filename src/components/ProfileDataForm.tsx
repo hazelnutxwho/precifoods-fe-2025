@@ -137,6 +137,7 @@ export default function ProfileDataForm({
         {...register("medical_history")}
         required
         label="Riwayat Penyakit"
+        autoComplete="off"
         size="small"
         className="w-full"
         error={!!errors.medical_history}

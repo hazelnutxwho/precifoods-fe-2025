@@ -17,10 +17,15 @@ import {
 } from "@mui/material";
 
 import { openToast } from "@/components/Toast";
+import { Profile } from "@/interfaces/profile";
 import { putDataAuthenticated } from "@/utils/http";
 import { ChangePasswordSchema } from "@/validations/updateData";
 
-export default function ChangePasswordDialog() {
+export default function ChangePasswordDialog({
+  profile,
+}: {
+  profile: Profile | null;
+}) {
   const [open, setOpen] = useState(false);
 
   const [showOldPassword, setShowOldPassword] = useState(false);
@@ -87,11 +92,26 @@ export default function ChangePasswordDialog() {
           Ganti Password
         </DialogTitle>
         <DialogContent>
+          {/* Hidden username so password managers update the credential for
+              this account instead of picking a nearby field (e.g. the
+              "Riwayat Penyakit" select on the profile page). */}
+          <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            value={profile?.user.email || ""}
+            readOnly
+            tabIndex={-1}
+            aria-hidden="true"
+            className="sr-only"
+          />
           <TextField
             {...register("old_password")}
             required
+            id="old_password"
             label="Password saat ini"
             type={showOldPassword ? "text" : "password"}
+            autoComplete="current-password"
             size="small"
             name="old_password"
             variant="outlined"
@@ -115,8 +135,10 @@ export default function ChangePasswordDialog() {
           <TextField
             {...register("new_password")}
             required
+            id="new_password"
             label="Password baru"
             type={showNewPassword ? "text" : "password"}
+            autoComplete="new-password"
             size="small"
             name="new_password"
             variant="outlined"
@@ -140,8 +162,10 @@ export default function ChangePasswordDialog() {
           <TextField
             {...register("password_confirmation")}
             required
+            id="password_confirmation"
             label="Konfirmasi password"
             type={showConfirmPassword ? "text" : "password"}
+            autoComplete="new-password"
             size="small"
             name="password_confirmation"
             variant="outlined"

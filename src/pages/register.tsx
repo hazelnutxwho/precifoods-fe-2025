@@ -119,6 +119,7 @@ export default function Register() {
               {...register("name")}
               required
               label="Nama"
+              autoComplete="name"
               fullWidth
               variant="outlined"
               size="small"
@@ -140,6 +141,7 @@ export default function Register() {
                     helperText: errors.birth?.message,
                     required: true,
                     size: "small",
+                    autoComplete: "bday",
                   },
                 }}
                 className="w-full"
@@ -153,6 +155,7 @@ export default function Register() {
               {...register("sex")}
               required
               label="Jenis Kelamin"
+              autoComplete="sex"
               fullWidth
               variant="outlined"
               size="small"
@@ -177,6 +180,7 @@ export default function Register() {
               id="weight"
               label="Berat Badan (kg)"
               type="number"
+              autoComplete="off"
               className="w-full"
               size="small"
               placeholder="Masukkan Berat Badan"
@@ -194,6 +198,7 @@ export default function Register() {
               id="height"
               label="Tinggi Badan (cm)"
               type="number"
+              autoComplete="off"
               className="w-full"
               size="small"
               placeholder="Mausukkan Tinggi Badan"
@@ -208,6 +213,7 @@ export default function Register() {
               required
               label="Email"
               type="email"
+              autoComplete="email"
               fullWidth
               variant="outlined"
               size="small"
@@ -223,6 +229,7 @@ export default function Register() {
               required
               label="Nomor Telepon"
               type="tel"
+              autoComplete="tel"
               fullWidth
               variant="outlined"
               size="small"
@@ -238,6 +245,7 @@ export default function Register() {
               required
               label="Password"
               type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
               fullWidth
               variant="outlined"
               size="small"
@@ -270,6 +278,7 @@ export default function Register() {
               required
               label="Konfirmasi Password"
               type={showPasswordConfirmation ? "text" : "password"}
+              autoComplete="new-password"
               fullWidth
               variant="outlined"
               size="small"
@@ -308,6 +317,7 @@ export default function Register() {
               {...register("medical_history")}
               required
               label="Riwayat Penyakit"
+              autoComplete="off"
               fullWidth
               variant="outlined"
               size="small"

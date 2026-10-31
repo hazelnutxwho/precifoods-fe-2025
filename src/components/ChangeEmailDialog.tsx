@@ -105,6 +105,7 @@ export default function ChangeEmailDialog({
             required
             label="Email"
             type="email"
+            autoComplete="email"
             size="small"
             variant="outlined"
             fullWidth
@@ -117,6 +118,7 @@ export default function ChangeEmailDialog({
             required
             id="password"
             label="Password"
+            autoComplete="current-password"
             size="small"
             type={showPassword ? "text" : "password"} 
             className="w-full"

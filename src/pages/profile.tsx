@@ -77,7 +77,7 @@ export default function Profile() {
 
         <Box className="space-y-4">
           <ChangeEmailDialog profile={profile} />
-          <ChangePasswordDialog />
+          <ChangePasswordDialog profile={profile} />
         </Box>
       </Paper>
 

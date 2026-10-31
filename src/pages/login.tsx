@@ -142,6 +142,8 @@ export default function Login() {
               {...register("email")}
               required
               label="Email"
+              type="email"
+              autoComplete="username"
               fullWidth
               variant="outlined"
               size="small"
@@ -157,6 +159,7 @@ export default function Login() {
               required
               label="Password"
               type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
               fullWidth
               variant="outlined"
               size="small"
