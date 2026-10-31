@@ -7,12 +7,14 @@ import { useRouter } from "next/router";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Alert,
   Box,
   Button,
   IconButton,
+  InputAdornment,
   Link,
   MenuItem,
   Paper,
@@ -28,6 +30,7 @@ import { LoginSchema } from "@/validations/auth";
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const { data: restaurants } = useGetRestaurants(); // Fetch restaurants
   const router = useRouter();
 
@@ -153,13 +156,30 @@ export default function Login() {
               {...register("password")}
               required
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               fullWidth
               variant="outlined"
               size="small"
               placeholder="Masukkan Password"
               error={!!errors.password}
               helperText={errors.password?.message}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                      aria-label={
+                        showPassword
+                          ? "Sembunyikan password"
+                          : "Tampilkan password"
+                      }
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Box>
 

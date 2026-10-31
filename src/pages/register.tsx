@@ -8,12 +8,14 @@ import { Dayjs } from "dayjs";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Alert,
   Box,
   Button,
   IconButton,
+  InputAdornment,
   Link,
   MenuItem,
   Paper,
@@ -29,6 +31,9 @@ import { RegisterSchema } from "@/validations/auth";
 
 export default function Register() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState(false);
   const router = useRouter();
 
   const registerForm = useForm<z.infer<typeof RegisterSchema>>({
@@ -232,13 +237,30 @@ export default function Register() {
               {...register("password")}
               required
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               fullWidth
               variant="outlined"
               size="small"
               placeholder="Masukkan Password"
               error={!!errors.password}
               helperText={errors.password?.message}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                      aria-label={
+                        showPassword
+                          ? "Sembunyikan password"
+                          : "Tampilkan password"
+                      }
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Box>
 
@@ -247,13 +269,36 @@ export default function Register() {
               {...register("password_confirmation")}
               required
               label="Konfirmasi Password"
-              type="password"
+              type={showPasswordConfirmation ? "text" : "password"}
               fullWidth
               variant="outlined"
               size="small"
               placeholder="Masukkan Konfirmasi Password"
               error={!!errors.password_confirmation}
               helperText={errors.password_confirmation?.message}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() =>
+                        setShowPasswordConfirmation(!showPasswordConfirmation)
+                      }
+                      edge="end"
+                      aria-label={
+                        showPasswordConfirmation
+                          ? "Sembunyikan konfirmasi password"
+                          : "Tampilkan konfirmasi password"
+                      }
+                    >
+                      {showPasswordConfirmation ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Box>
 
